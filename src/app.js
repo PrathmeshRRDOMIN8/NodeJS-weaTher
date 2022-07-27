@@ -57,14 +57,17 @@ app.get('',(req,res) => {
           if(error){
               return response.send({error})
           }
-      forecast(latitude,longitude, (error,{weatherDescriptions,temperature,feelslike,precipPercentage} = {}) =>{
+      forecast(latitude,longitude, (error,{weatherDescriptions,temperature,feelslike,precipPercentage,humidity,windspeed} = {}) =>{
           if(!error){
               response.send({
                Weather_Forecast: weatherDescriptions,
                Temperature: temperature,
                Location: placeName,
                Feelslike: feelslike,
-               Precipationchances : precipPercentage
+               Precipationchances : precipPercentage,
+               Humidity : humidity,
+               // visibility: visibility,
+               Windspeed : windspeed
               })
           }
           else{

@@ -15,6 +15,9 @@ const weatherstack = (lat, lon, callback) =>{
                   temperature: response.body.current.temperature,
                   feelslike: response.body.current.feelslike,
                   precipPercentage: response.body.current.precip,
+                  humidity: response.body.current.humidity,
+                //   visibility : response.body.current.visibility,
+                  windspeed : response.body.current.wind_speed,
               })
           }
       })

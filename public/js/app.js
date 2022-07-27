@@ -15,6 +15,10 @@ const messagetwo = document.querySelector('#message-2')
 const messagethree = document.querySelector('#message-3')
 const messagefour = document.querySelector('#message-4')
 const messagefive = document.querySelector('#message-5')
+const messagesix = document.querySelector('#message-6')
+const messageseven = document.querySelector('#message-7')
+// const messageeight = document.querySelector('#message-8')
+
 
 weatherform.addEventListener('submit',(e) =>  {
      e.preventDefault()
@@ -35,6 +39,10 @@ weatherform.addEventListener('submit',(e) =>  {
             messagethree.textContent = 'Temperature: ' + data.Temperature   
             messagefour.textContent = 'Feelslike: ' + data.Feelslike
             messagefive.textContent = 'Precipation chances: ' + data.Precipationchances + '%'
+            messagesix.textContent = 'Humidity: ' + data.Humidity
+            // messageseven.textContent = 'Visiblity: ' + data.visiblity
+            messageseven.textContent = 'Windspeed: ' + data.Windspeed
+        
         }
     })
 })
