@@ -1,13 +1,3 @@
-// console.log('Client side file is loaded!') 
-
-// fetch('http://puzzle.mead.io/puzzle').then((response)=>{
-//      response.json().then((data)=>{
-//         console.log(data)
-//      })
-// }) 
-
-
-
 const weatherform = document.querySelector('form')
 const search = document.querySelector('input')
 const messageone = document.querySelector('#message-1')
@@ -22,26 +12,26 @@ const messageseven = document.querySelector('#message-7')
 
 weatherform.addEventListener('submit',(e) =>  {
      e.preventDefault()
-     const location  = search.value 
+     const b_id  = search.value 
      messageone.textContent = 'Loading ....' 
      messagetwo.textContent = ''
      messagethree.textContent = ''  
      messagefour.textContent = ''  
      messagefive.textContent = ''  
-    fetch(' /weather-page?address='+location).then((response)=>{
+    fetch(' /business-info?business_id='+ b_id).then((response)=>{
     response.json().then((data)=>{
         if(data.error){    
             messageone.textContent = data.error
         }
         else{  
-            messageone.textContent = 'Location: ' + data.Location
-            messagetwo.textContent = 'Weather:   ' + data.Weather_Forecast
-            messagethree.textContent = 'Temperature: ' + data.Temperature   
-            messagefour.textContent = 'Feelslike: ' + data.Feelslike
-            messagefive.textContent = 'Precipation chances: ' + data.Precipationchances + '%'
-            messagesix.textContent = 'Humidity: ' + data.Humidity
+            messageone.textContent = 'Name: ' + data.Name
+            messagetwo.textContent = 'City:   ' + data.City
+            messagethree.textContent = 'Category: ' + data.Category 
+            messagefour.textContent = ''
+            messagefive.textContent = ''
+            messagesix.textContent = ''
             // messageseven.textContent = 'Visiblity: ' + data.visiblity
-            messageseven.textContent = 'Windspeed: ' + data.Windspeed
+            messageseven.textContent = ''
         
         }
     })

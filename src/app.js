@@ -17,7 +17,7 @@ app.set('view engine' , 'hbs')
 app.set('views',viewsPath)
 hbs.registerPartials(partialsPath)
 
-// Setup static Directory to serve.
+// Setup static Directory to serve
 app.use(express.static(publicDirectoryPath))
 // app.get('',(request,response)=> {
 //     response.send('<h1>Hello Express!</h1>')
@@ -25,76 +25,86 @@ app.use(express.static(publicDirectoryPath))
  
 app.get('',(req,res) => {
    res.render('index',{
-      title: 'Weather App',
-      name : 'Prathmesh'  
+      title: 'Businesses',
+      name : 'Team DOMIN8'  
    }) 
  })
 
- app.get('/help', (request,response)=>{
-    response.render('help',{
-      helptext:'If you want any help you can contact.',
-      title: 'Help',
-      name: 'Prathmesh'
-    })   
+ app.get('/analysis', (request,response)=>{
+   if(!request.query.business_id){
+      return response.send({
+         error: 'You must provide an Address'
+      })
+   }
+   else{
+      weatherstack(request.query.business_id,(error,{totalSku}={}) =>{
+         if(error){
+            return response.send({error})
+        }
+        else{
+          response.send({
+            SKU: totalSku
+         })
+        }
+        
+      })
+      response.render('help',{
+         helptext:'Data processed and analysed for e-samudaay hackathon',
+         title: 'Help',
+         name: 'Team DOMIN8'
+       })
+   }
  })
 
- app.get('/about',(request,response)=>{
-    response.render('about',{
-      title:'About me',
-      name: 'Prathmesh' 
-    })  
- })
 
- app.get('/weather-page',(request,response)=>{
-   if(!request.query.address){
+
+ app.get('/business-info',(request,response)=>{
+   if(!request.query.business_id){
       return response.send({
          error: 'You must provide an Address'
       })
    }
 
    else{
-      geocode(request.query.address, (error,{latitude,longitude,placeName}={}) => {
+      geocode(request.query.business_id, (error,{name,addressname,isOpen,hasDelivery, chat, baseType,categoryNumber,hasSelfPickUp,upi_active,hasSmartBoxDelivery,prettyaddr,city,state,pincode,category}={}) => {
           if(error){
               return response.send({error})
           }
-      forecast(latitude,longitude, (error,{weatherDescriptions,temperature,feelslike,precipPercentage,humidity,windspeed} = {}) =>{
-          if(!error){
-              response.send({
-               Weather_Forecast: weatherDescriptions,
-               Temperature: temperature,
-               Location: placeName,
-               Feelslike: feelslike,
-               Precipationchances : precipPercentage,
-               Humidity : humidity,
-               // visibility: visibility,
-               Windspeed : windspeed
-              })
-          }
           else{
-            return response.send({error})
-          }    
-         })
+            response.send({
+               Name: name,
+               AddressName : addressname,
+               PrettyAddr: prettyaddr,
+               City: city,
+               State : state,
+               Pincode : pincode,
+               Category : category,
+               Open: isOpen,
+               Delivery: hasDelivery,
+               SelfPickup:hasSelfPickUp,
+               SmartBoxDelivery:hasSmartBoxDelivery,
+               UPI : upi_active,
+               Category_Number : categoryNumber,
+               Type : baseType,
+               Chat : chat,
+            })
+          }
       })
   }
- })  
+ }) 
 
-//  app.get('/products',(request,response) =>{
-//    if(!request.query.search){
-//      return response.send({
-//          error: 'You must provide a search term'  
-//       })
-//    }
-//    console.log(request.query)   
-//    response.send({
-//       products: [],
-//    })
-//  })
+ app.get('/about',(request,response)=>{
+   response.render('about',{
+     title:'About us',
+     name: 'Team DOMIN8' 
+   })  
+})
 
  app.get('/help/*', (request,response)=>{
    response.render('404',{
       title: '404',
-      errormessage: 'Help article not found.',   
-      name: 'Prathmesh'
+      errormessage: 'Data not found.',   
+      name: 'Team DOMIN8'
    }) 
 })
 
@@ -102,7 +112,7 @@ app.get('',(req,res) => {
    response.render('404',{
       title: '404',
       errormessage: 'Page not found',
-      name: 'Prathmesh'
+      name: 'Team DOMIN8'
    })
  })
  
